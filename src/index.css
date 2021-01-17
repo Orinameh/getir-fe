@@ -7,7 +7,47 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+p {
+  color: rgba(0,0,0, .7);
+}
+
+/* modal */
+.modalBlock {
+  width: 100vw;
+  height: 100vh;
+  background: var(--modal-bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+  animation: fadeIn 0.1s linear both;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    pointer-events: initial;
+  }
+}
+
+.active .modalFormBlock {
+  --width: 400px;
+  width: var(--width);
+  transform: translateX(var(--width));
+  height: 100%;
+  background-color: var(--bg-white);
+  padding: 20px;
+  overflow: auto;
+  margin-left: auto;
+  animation: modalSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes modalSlideIn {
+  to {
+    transform: translateX(0);
+  }
 }

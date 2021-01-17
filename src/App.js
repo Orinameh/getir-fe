@@ -7,6 +7,7 @@ import Todos from './todos/Todos';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTodos, setTodos } from './redux/actions/todo';
 import EditTodo from './todos/EditTodo';
+import DeleteTodo from './todos/DeleteTodo';
 
 function App() {
     const dispatch = useDispatch();
@@ -38,6 +39,8 @@ function App() {
                 return <AddTodo {...{ setModal, modal }} />;
             case 'edit':
                 return <EditTodo {...{ setModal, modal, data }} />;
+            case 'delete':
+                return <DeleteTodo {...{ setModal, modal, data }} />;
             default:
                 return;
         }

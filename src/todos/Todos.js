@@ -15,9 +15,19 @@ function Todos({ data, setModal }) {
                             modalItemId: `${i}`
                         });
                     }}>
-                    {datum.completed ? 'mark as incomplete' : 'mark as complete'}
+                    Edit
                 </button>
-                <button>X</button>
+                <button
+                    className="delete"
+                    onClick={() => {
+                        setModal({
+                            showModal: true,
+                            modalType: 'delete',
+                            modalItemId: `${i}`
+                        });
+                    }}>
+                    X
+                </button>
             </div>
         );
     });

@@ -1,4 +1,4 @@
-import { ADD_TODO, FETCH_TODOS, UPDATE_TODO } from '../types';
+import { ADD_TODO, DELETE_TODO, FETCH_TODOS, UPDATE_TODO } from '../types';
 
 const initialState = {
     data: []
@@ -8,7 +8,7 @@ export default (state = initialState, action) => {
         case FETCH_TODOS:
             return {
                 ...state,
-                data: [...state.data, ...action.todos]
+                data: [...action.todos]
             };
         case ADD_TODO:
             return {
@@ -24,6 +24,12 @@ export default (state = initialState, action) => {
                     }
                     return item;
                 })
+            };
+        case DELETE_TODO:
+            console.log(state, action);
+            return {
+                ...state,
+                data: state.data.filter((item) => item.id !== action.id)
             };
         default:
             return state;

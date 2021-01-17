@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { setUpdateTodo, updateTodo } from '../redux/actions/todo';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-function EditTodo({ setModal, modal, data }) {
+function EditTodo({ setModal, modal }) {
     const [body, setBody] = useState('');
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const data = useSelector((state) => state.todo.data);
     const dispatch = useDispatch();
 
     // Grab the id of the current Todo
@@ -28,11 +29,11 @@ function EditTodo({ setModal, modal, data }) {
             title: body ? body : data[id].title,
             completed: status === 'complete' ? true : false
         };
+        console.log(data_, data, id);
         updateTodo(`todos/${data[id].id}`, data_)
             .then((res) => {
                 dispatch(setUpdateTodo(res));
                 setLoading(false);
-
                 closeModal();
             })
             .catch((err) => {
@@ -80,8 +81,7 @@ EditTodo.propTypes = {
         showModal: PropTypes.bool,
         modalType: PropTypes.string,
         modalItemId: PropTypes.string
-    }),
-    data: PropTypes.array.isRequired
+    })
 };
 
 export default EditTodo;

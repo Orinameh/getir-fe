@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { createTodo, setTodo } from '../redux/actions/todo';
+import { deleteTodo, setDeleteTodo } from '../redux/actions/todo';
 
-function AddTodo({ setModal }) {
-    const [body, setBody] = useState('');
+function DeleteTodo({ setModal, modal, data }) {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    // Grab the id of the current Todo
+    const id = modal.modalItemId;
+    console.log(data, id);
 
     function closeModal() {
         setModal({
@@ -16,49 +18,40 @@ function AddTodo({ setModal }) {
         });
     }
 
-    async function onAddTodo(e) {
+    async function onDeleteTodo(e) {
         e.preventDefault();
         setLoading(true);
-        const data = { title: body, completed: false, url: `${process.env.REACT_APP_URL}todos` };
-        createTodo('todos', data)
+        deleteTodo(`todos/${data[id].id}`)
             .then((res) => {
+                console.log(res, data, id);
                 setLoading(false);
-                dispatch(setTodo(res));
+                dispatch(setDeleteTodo(data[id].id));
                 closeModal();
             })
             .catch((err) => {
                 setLoading(false);
+                console.log(data, id);
+
                 // TODO: create a popup
                 alert('There is an error', err);
             });
     }
     return (
-        <form className="form" onSubmit={onAddTodo}>
-            <h3> Add New Todo </h3>{' '}
-            <div className="form-input">
-                <label htmlFor="title">Title</label>
-
-                <input
-                    required
-                    name="body"
-                    value={body}
-                    placeholder="E.g Read books"
-                    autoComplete="off"
-                    onChange={(e) => setBody(e.target.value)}
-                />
-            </div>
-            <button type="submit">{loading ? 'Adding Todo...' : 'Add Todo'}</button>
+        <form className="form" onSubmit={onDeleteTodo}>
+            <h3> Are you sure you want to delete this Todo? </h3>{' '}
+            <button type="submit">{loading ? 'Deleting Todo...' : 'Delete Todo'}</button>
         </form>
     );
 }
 
-AddTodo.propTypes = {
+DeleteTodo.propTypes = {
     setModal: PropTypes.func.isRequired,
     modal: PropTypes.shape({
         showModal: PropTypes.bool,
         modalType: PropTypes.string,
         modalItemId: PropTypes.string
-    })
+    }),
+    data: PropTypes.array.isRequired
 };
 
-export default AddTodo;
+export default DeleteTodo;

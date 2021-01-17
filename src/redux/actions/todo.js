@@ -1,5 +1,5 @@
 import { DELETE, GET, POST, PUT } from '../../api';
-import { ADD_TODO, FETCH_TODOS, UPDATE_TODO } from '../types';
+import { ADD_TODO, DELETE_TODO, FETCH_TODOS, UPDATE_TODO } from '../types';
 
 // GET Todos
 export const setTodos = (todos) => {
@@ -37,10 +37,10 @@ export const updateTodo = (endpoint, data) => {
 };
 
 // Delete Todos
-export const setDeleteTodo = (todo) => {
+export const setDeleteTodo = (id) => {
     return {
-        type: UPDATE_TODO,
-        todo
+        type: DELETE_TODO,
+        id
     };
 };
 
